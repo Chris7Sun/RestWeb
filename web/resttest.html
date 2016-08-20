@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>REST test demo</title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Person</h1>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Person List</div>
+            <div class="panel-body">
+                <div id="person"></div>
+            </div>
+        </div>
+    </div>
+
+<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="http://cdn.bootcss.com/handlebars.js/1.3.0/handlebars.min.js"></script>
+
+<script type="text/x-handlebars-template" id="person_table_template">
+    { {#if data} }
+        <table class="table table-hover" id="person_table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Person Name</th>
+                    <th>Age</th>
+                </tr>
+            </thead>
+            <tbody>
+                { {#data} }
+                    <tr data-id="{{id}}" data-name="{{name}}">
+                        <td>{{id}}</td>
+                        <td>{{name}}</td>
+                        <td>{{age}}</td>
+                    </tr>
+                { {/data} }
+            </tbody>
+        </table>
+    { {else} }
+        <div class="alert alert-warning">Can not find any data!</div>
+    { {/if} }
+</script>
+
+<script>
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/rest/sun/persons",
+            dateType: 'json',
+            success: function (data) {
+                var template = $("#person_table_template").html();
+                var render = Handlebars.compile(template);
+                var html = render({
+                    data: data
+                });
+                $('#person').html(html);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

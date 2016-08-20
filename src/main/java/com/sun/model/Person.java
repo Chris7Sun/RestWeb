@@ -9,6 +9,12 @@ public class Person {
     private int age;
     private String gender;
 
+    public Person(int id, String name, int age, String gender){
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
     public int getId() {
         return id;
     }
